@@ -3,6 +3,7 @@ import { ProductsService } from '../../Services/products.service';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../Services/cart-service.service';
 import { NgModule } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-products',
   imports: [CommonModule],
@@ -11,20 +12,31 @@ import { NgModule } from '@angular/core';
 })
 export class ProductsComponent {
   products:any;
-  constructor(readonly productService: ProductsService, readonly cartService: CartService){
+  word : string = "";
+  constructor(readonly productService: ProductsService, readonly cartService: CartService, readonly route: ActivatedRoute){
 
   }
-  ngOnInit()
-  {
-    this.productService.getProducts().subscribe({
-      next: (data:any)=>{
-        this.products = data;
-      },
-      error:(err)=>{
-        err
-      }
-    })
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.word = params['search'] || '';
+  
+      this.productService.getProducts().subscribe({
+        next: (data: any) => {
+          if (this.word !== '') {
+            this.products = data.filter((item: any) =>
+              item.title.toLowerCase().includes(this.word.toLowerCase())
+            );
+          } else {
+            this.products = data;
+          }
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
+    });
   }
+  
   addToCart(item:any=null){
     this.cartService.addToCart(item);
   }
