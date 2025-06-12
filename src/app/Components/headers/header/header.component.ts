@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-header',
@@ -7,5 +8,6 @@ import { Component } from '@angular/core';
   styles: ``
 })
 export class HeaderComponent {
+constructor(private cookieService : CookieService){}
 
 }

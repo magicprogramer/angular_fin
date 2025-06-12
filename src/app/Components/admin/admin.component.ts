@@ -14,6 +14,10 @@ export class AdminComponent {
   public users:any;
   public orders:any;
   constructor(private productService : ProductsService, private userSerivce: UsersService, private orderService : OrderService) {
+    
+  }
+  ngOnInit()
+  {
     this.productService.getProducts().subscribe({
       next:(res)=>{
         this.products = res;
