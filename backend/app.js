@@ -27,7 +27,6 @@ app.use(fileUpload({
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const secret = '1234';
-const apiKey = '659334a9e9c96f2ffb5e4074c8fba217';
 
 mongoose
   .connect("mongodb://localhost:27017/shop")
