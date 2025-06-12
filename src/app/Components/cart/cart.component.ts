@@ -13,8 +13,12 @@ import { HttpClient } from '@angular/common/http';
 export class CartComponent {
   public cart:any;
   constructor(private cartService : CartService, private router : Router, private http : HttpClient, private cookieService: CookieService) {
-    console.log(cartService.getCart());
-    this.cart = cartService.getCart();
+
+   }
+   ngOnInit()
+   {
+    console.log(this.cartService.getCart());
+    this.cart = this.cartService.getCart();
    }
    deleteItem(item:any){
     this.cartService.deleteFromCart(item._id);
