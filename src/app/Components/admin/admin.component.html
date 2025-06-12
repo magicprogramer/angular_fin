@@ -1,0 +1,30 @@
+<div role="tablist" class="tabs tabs-boxed">
+    <a role="tab" class="tab tab-active" (click)="active = 'products'">Products</a>
+    <a role="tab" class="tab" (click)="active = 'users'">Users</a>
+    <a role="tab" class="tab" (click)="active = 'orders'">Orders</a>
+  </div>
+  <div class="mt-4">
+    <div *ngIf="active === 'products'" class="p-4 bg-base-200 rounded-box">
+        @for (item of products; track item._id) {
+            <div class="card bg-base-100 w-96 shadow-sm m-4">
+              <figure>
+                <img [src]="'http://localhost:3000' + item.image" alt="Product Image" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">{{ item._id }}</h2>
+                <p>{{ item.details }}</p>
+                <div class="card-actions justify-end">
+                  <button class="btn btn-primary" (click)="delete(item)">delete</button>
+                  <button class="btn btn-info">{{item.price}} $</button>
+                </div>
+              </div>
+            </div>
+          }
+        <a class="btn btn-primary" href="/add-product">Add Product</a>
+
+
+    </div>
+    <div *ngIf="active === 'users'" class="p-4 bg-base-200 rounded-box">Users Area</div>
+    <div *ngIf="active === 'orders'" class="p-4 bg-base-200 rounded-box">Orders Area</div>
+  </div>
+  
