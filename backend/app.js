@@ -64,7 +64,7 @@ const orderSchema = new mongoose.Schema({
     },
   ],
   totalPrice: Number,
-  status: { type: String, enum: ["pending", "accepted", "rejected"], default: "pending" },
+  status: { type: String, enum: ["pending", "accepted", "rejected", "canceled"], default: "pending" },
   date: { type: Date, default: Date.now },
 });
 const Order = mongoose.model("Order", orderSchema);
@@ -82,15 +82,40 @@ function auth(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-  if (req.user.role !== "admin") return res.status(403).json("not allowed");
+  if (req.user.role && req.user.role !== "admin") return res.status(403).json("not allowed");
   next();
 }
+app.get("/users", auth, isAdmin, async (req, res) =>{
+ // console.log(res);
+  const users = await User.find();
+  res.send(users);
+})
+app.delete("/users/:id",auth, isAdmin, async (req, res) =>{
+  if (req.user.role == "admin")return res.status(403).send("can't delete admin");
+  console.log(req.params.id);
+  const user = await User.findById(req.params.id);
+  console.log(user);
+})
 app.get('/image/:imageName', (req, res) => {
   const imageName = req.params.imageName;
   const imagePath = path.join(__dirname, 'uploads', imageName);
   console.log(imagePath);
   res.sendFile(imagePath);
   //console.log(res);
+});
+app.put("/orders/:id", auth, async (req, res) => {
+  
+  console.log(req.user.id, req.body.status, req.params);
+  const order = await Order.findById(req.params.id);
+  console.log(order, req.user.id, req.body.status);
+  if (order)
+  {
+    if ((order.userId == req.user.id && req.body.status == "cancel") || req.user.role == "admin") {
+      
+      return  res.status(200).json(await Order.updateOne({ _id: req.params.id }, { $set: {status: req.body.status} }));
+    }
+  }
+  return res.status(403).json("not allowed to update this order status");
 });
 app.post("/register", async (req, res) => {
   try {
@@ -177,7 +202,6 @@ app.delete("/products/:id", auth, isAdmin, async (req, res) => {
 
 app.post("/orders", auth, async (req, res) => {
   const { products } = req.body;
-  console.log("lose");
   const totalPrice = products.reduce((sum, p) => sum + p.price * p.quantity, 0);
 
   const order = new Order({
@@ -196,14 +220,15 @@ app.get("/my-orders", auth, async (req, res) => {
   res.json(orders);
 });
 
-app.get("/orders", auth, isAdmin, async (req, res) => {
+app.get("/orders", async (req, res) => {
   const orders = await Order.find();
   res.json(orders);
 });
 
 app.put("/orders/:id", auth, isAdmin, async (req, res) => {
+  console.log("nerf this")
   await Order.updateOne({ _id: req.params.id }, { status: req.body.status });
-  res.send("order updated");
+  return res.send("order updated");
 });
 
 app.delete("/orders/:id", auth, async (req, res) => {

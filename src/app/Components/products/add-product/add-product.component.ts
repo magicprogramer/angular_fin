@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductsService } from '../../../Services/products.service';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-add-product',
@@ -12,7 +14,7 @@ export class AddProductComponent {
   productForm: FormGroup;
   selectedFile: File | null = null;
 
-  constructor(private fb: FormBuilder, private ProductsService : ProductsService) {
+  constructor(private cookieService :CookieService, private fb: FormBuilder, private ProductsService : ProductsService, private router : Router) {
     this.productForm = this.fb.group({
       title: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(0)]],
@@ -39,7 +41,11 @@ export class AddProductComponent {
       formData.append('image', this.selectedFile);
     }
     this.ProductsService.addProduct(formData).subscribe({
-      
+      next: (response: any) => {
+        console.log('Product added successfully:', response);
+        this.cookieService.get("role") == "admin" ? this.router.navigate(['/admin']):
+          this.router.navigate([""]);
+      }
     }
     )
 
