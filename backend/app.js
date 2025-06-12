@@ -90,9 +90,12 @@ app.get("/users", auth, isAdmin, async (req, res) =>{
   res.send(users);
 })
 app.delete("/users/:id",auth, isAdmin, async (req, res) =>{
-  if (req.user.role == "admin")return res.status(403).send("can't delete admin");
   console.log(req.params.id);
+  console.log(req.user);
   const user = await User.findById(req.params.id);
+  console.log(user);
+  if (user.role == "admin") return res.status(403).send("can't delete admin");
+  return res.status(200).json(await User.deleteOne({ _id: req.params.id }));
   console.log(user);
 })
 app.get('/image/:imageName', (req, res) => {
@@ -132,7 +135,7 @@ app.post("/register", async (req, res) => {
     if (exists) return res.status(400).json("Email already used");
     const url = upload(image);
     const hashed = await bcrypt.hash(password, 9);
-    const user = new User({ name, email, password: hashed, gender, image: url, role: "admin" });
+    const user = new User({ name, email, password: hashed, gender, image: url, role: "user" });
 
     await user.save();
     res.status(201).json(user);
