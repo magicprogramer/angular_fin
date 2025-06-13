@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../Services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registeration',
@@ -12,7 +13,7 @@ export class RegisterationComponent {
   registerForm: FormGroup;
   selectedImage: File | null = null;
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
@@ -44,6 +45,7 @@ export class RegisterationComponent {
       this.auth.Register(formData).subscribe({
         next: (response) => {
           console.log('Registration successful:', response);
+          this.router.navigate(["/login"])
         },
         error: (error) => {
           console.error('Registration failed:', error);

@@ -5,6 +5,7 @@ import { ImageUrlPipe } from '../../pipes/image-url.pipe';
 import { CommonModule } from '@angular/common';
 import { ToastModule } from 'primeng/toast';
 import { OrderService } from '../../Services/order.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-details',
@@ -37,10 +38,14 @@ export class UserDetailsComponent implements OnInit {
       this.showMsg = false;
     }, 3000);
   }
-  constructor(private fb: FormBuilder, private userService: UsersService, private orderService: OrderService) {}
+  constructor(private fb: FormBuilder, private userService: UsersService, private orderService: OrderService, private router: Router) {}
 
   ngOnInit() {
     this.user = this.userService.getCurrentUser();
+    if (!this.user.id) {
+      console.error('User not found');
+      this.router.navigate(["/login"]);
+    }
     this.orderService.getOrdersByUser(this.user._id).subscribe({
       next: (res: any) => {
         console.log(res);

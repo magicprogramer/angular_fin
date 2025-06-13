@@ -19,6 +19,7 @@ export class AuthService {
   {
     this.cookieService.delete('token');
     this.cookieService.delete('user');
+    this.cookieService.delete('cart');
 
   }
 }
