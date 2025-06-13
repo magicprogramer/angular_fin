@@ -6,8 +6,7 @@
   <div class="flex-none pr-4">
     <ul class="menu menu-horizontal px-1">
       <li>
-        
-        <div class="avatar" *ngIf = "user">
+        <div class="avatar" *ngIf="user?._id">
           <div class="ring-primary ring-offset-base-100 w-12 rounded-full ring-2 ring-offset-2">
             <img [src]="user.image | imageUrl"/>
           </div>
@@ -20,10 +19,10 @@
               {{user | getUserName}}
           </summary>
           <ul class="bg-base-100 rounded-t-none p-2 absolute right-0 z-50 shadow-lg min-w-[8rem]">
-            <li><a routerLink="/profile"  *ngIf="user">Profile</a></li>
-            <li><a role="button" (click)="logout($event)"  *ngIf="user">Logout</a></li>
-            <li><a routerLink="/login"  *ngIf="!user">Login</a></li>
-            <li><a routerLink="/register"  *ngIf="!user">Register</a></li>
+            <li><a routerLink="/profile"  *ngIf="user?._id">Profile</a></li>
+            <li><a role="button" (click)="logout($event)"  *ngIf="user?._id">Logout</a></li>
+            <li><a routerLink="/login"  *ngIf="!user?._id">Login</a></li>
+            <li><a routerLink="/register"  *ngIf="!user?._id">Register</a></li>
           </ul>
         </details>
       </li>

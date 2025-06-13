@@ -42,7 +42,7 @@ export class UserDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.userService.getCurrentUser();
-    if (!this.user.id) {
+    if (!this.user?._id) {
       console.error('User not found');
       this.router.navigate(["/login"]);
     }

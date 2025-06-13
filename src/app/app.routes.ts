@@ -8,9 +8,13 @@ import { CartComponent } from './Components/cart/cart.component';
 import { RegisterationComponent } from './Components/users/registeration/registeration.component';
 import { LoginComponent } from './Components/users/login/login.component';
 import { AdminComponent } from './Components/admin/admin.component';
+import { AboutComponent } from './Components/about/about.component';
 export const routes: Routes = [
     {
         path: "admin", component: AdminComponent
+    },
+    {
+        path:"about", component: AboutComponent
     },
     {
         path: "register", component: RegisterationComponent
