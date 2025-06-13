@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { ProductsService } from '../../Services/products.service';
 import { UsersService } from '../../Services/users.service';
 import { OrderService } from '../../Services/order.service';
+import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin',
   imports: [CommonModule],
@@ -13,11 +15,15 @@ export class AdminComponent {
   public products:any;
   public users:any;
   public orders:any;
-  constructor(private productService : ProductsService, private userSerivce: UsersService, private orderService : OrderService) {
+  constructor(private productService : ProductsService, private userSerivce: UsersService, private orderService : OrderService,
+    private router: Router) {
     
   }
   ngOnInit()
   {
+    if (this.userSerivce.getCurrentUser().role != 'admin') {
+      this.router.navigate(['']);
+    }
     this.productService.getProducts().subscribe({
       next:(res)=>{
         this.products = res;

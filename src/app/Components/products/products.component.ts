@@ -14,8 +14,27 @@ import { ImageUrlPipe } from '../../pipes/image-url.pipe';
 export class ProductsComponent {
   products:any;
   word : string = "";
+  type = "";
+  msg = "";
+  showMsg = false;
   constructor(readonly productService: ProductsService, readonly cartService: CartService, readonly route: ActivatedRoute){
 
+  }
+  failure(msg:any=null){
+    this.type = "error";
+    this.msg = msg || "there is something wrong!";
+    this.showMsg = true;
+    setTimeout(() => {
+      this.showMsg = false;
+    }, 3000);
+  }
+  success(msg:any=null){
+    this.type = "success";
+    this.msg = msg || "done !";
+    this.showMsg = true;
+    setTimeout(() => {
+      this.showMsg = false;
+    }, 3000);
   }
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -40,6 +59,7 @@ export class ProductsComponent {
   
   addToCart(item:any=null){
     this.cartService.addToCart(item);
+    this.success("added to cart !");
   }
   doSomething()
   {
