@@ -1,7 +1,7 @@
-<div class="tabs tabs-border">
-    <input type="radio" name="profile_tabs" class="tab" aria-label="Edit Profile" checked />
+<div class="tabs tabs-bordered">
+    
+    <input type="radio" name="my_tabs_2" class="tab" aria-label="Tab 1" />
     <div class="tab-content border-base-300 bg-base-100 p-10">
-  
       <div
         *ngIf="showMsg"
         class="fixed top-5 right-5 text-white px-4 py-2 rounded shadow-lg z-50 transition-opacity duration-500"
@@ -18,24 +18,16 @@
           <h2 class="card-title">Edit Profile</h2>
   
           <form [formGroup]="form" (ngSubmit)="submitForm()">
-            <label class="label">
-              <span class="label-text">Name</span>
-            </label>
+            <label class="label"><span class="label-text">Name</span></label>
             <input class="input input-bordered w-full mb-2" type="text" formControlName="name" />
   
-            <label class="label">
-              <span class="label-text">Email</span>
-            </label>
+            <label class="label"><span class="label-text">Email</span></label>
             <input class="input input-bordered w-full mb-2" type="email" formControlName="email" />
   
-            <label class="label">
-              <span class="label-text">Gender</span>
-            </label>
+            <label class="label"><span class="label-text">Gender</span></label>
             <input class="input input-bordered w-full mb-2" type="text" formControlName="gender" />
   
-            <label class="label">
-              <span class="label-text">Profile Image</span>
-            </label>
+            <label class="label"><span class="label-text">Profile Image</span></label>
             <input class="file-input file-input-bordered w-full mb-4" type="file" (change)="onFileChange($event)" />
   
             <button class="btn btn-primary w-full mt-2" type="submit">Save</button>
@@ -47,10 +39,54 @@
         </figure>
       </div>
     </div>
-
-    <input type="radio" name="profile_tabs" class="tab" aria-label="Something Else" />
+    <input type="radio" name="my_tabs_2" class="tab" aria-label="Tab 2" checked="checked" />
     <div class="tab-content border-base-300 bg-base-100 p-10">
-      <p class="text-error text-xl font-bold text-center">ok</p>
+      <div class="overflow-x-auto">
+        <table class="table table-zebra">
+          <thead>
+            <tr>
+             <th>userID</th>
+              <th>ID</th>
+              <th>Products</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(order of orders; track order._id) {
+              <tr [ngStyle]="{
+                'background-color': 
+                  order.status === 'pending' ? '#fef3c7' :
+                  order.status === 'accept' ? '#bbf7d0' :
+                  order.status === 'cancelled' ? '#bb3e03' :
+                  'transparent'
+              }">
+              <th>{{order.userId}}</th>
+                <th>{{ order._id }}</th>
+                <td>
+                  <ul class="list-disc ml-4">
+                    @for(product of order.products; track product._id) {
+                      <li>{{ product.title }} × {{ product.quantity }}</li>
+                    }
+                  </ul>
+                </td>
+                <td>{{ order.date }} ({{ order.status }})</td>
+                <td class="flex gap-1">
+                  <button
+                    *ngIf="order.status === 'pending'"
+                    class="btn btn-square btn-ghost"
+                    (click)="cancel(order)"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   

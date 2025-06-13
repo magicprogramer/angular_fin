@@ -38,5 +38,17 @@ export class OrderService {
     return  this.http.get(`${this.url}`
       );
   }
+  getOrdersByUser(id:string)
+  {
+    return this.http.get(`${this.url}/users/${id}`,
+    
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.cookieService.get('token')}`
+        }
+      }
+    );
+}
 }
 

@@ -127,6 +127,13 @@ app.get('/image/:imageName', (req, res) => {
   res.sendFile(imagePath);
   //console.log(res);
 });
+app.get("/orders/users/:id", auth, async (req, res) => {
+  if (req.user.role !== "admin" && req.user.id !== req.params.id) {
+    return res.status(403).json("not allowed to view this user's orders");
+  }
+  const orders = await Order.find({ userId: req.params.id} ).sort({ date: -1 });
+  return res.status(200).json(orders);
+});
 app.put("/orders/:id", auth, async (req, res) => {
   
   console.log(req.user.id, req.body.status, req.params);
@@ -134,7 +141,7 @@ app.put("/orders/:id", auth, async (req, res) => {
   console.log(order, req.user.id, req.body.status);
   if (order)
   {
-    if ((order.userId == req.user.id && req.body.status == "cancel") || req.user.role == "admin") {
+    if ((order.userId == req.user.id && req.body.status == "cancelled") || req.user.role == "admin") {
       
       return  res.status(200).json(await Order.updateOne({ _id: req.params.id }, { $set: {status: req.body.status} }));
     }

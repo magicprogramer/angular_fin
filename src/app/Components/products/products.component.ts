@@ -3,11 +3,11 @@ import { ProductsService } from '../../Services/products.service';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../Services/cart-service.service';
 import { NgModule } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ImageUrlPipe } from '../../pipes/image-url.pipe';
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, ImageUrlPipe],
+  imports: [CommonModule, ImageUrlPipe, RouterLink],
   providers: [ProductsService],
   templateUrl: './products.component.html'
 })

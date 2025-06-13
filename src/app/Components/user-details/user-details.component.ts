@@ -4,10 +4,10 @@ import { UsersService } from '../../Services/users.service';
 import { ImageUrlPipe } from '../../pipes/image-url.pipe';
 import { CommonModule } from '@angular/common';
 import { ToastModule } from 'primeng/toast';
+import { OrderService } from '../../Services/order.service';
 
 @Component({
   selector: 'app-user-details',
-  standalone: true,
   imports: [ReactiveFormsModule, CommonModule, ImageUrlPipe, ToastModule],
   templateUrl: './user-details.component.html',
   styleUrls: []
@@ -15,8 +15,10 @@ import { ToastModule } from 'primeng/toast';
 export class UserDetailsComponent implements OnInit {
   form!: FormGroup;
   selectedImage: File | null = null;
+  active = "profile";
   user: any;
   msg:any = "";
+  orders:any;
   showMsg = false;
   type: string = "success";
   failure(){
@@ -35,11 +37,19 @@ export class UserDetailsComponent implements OnInit {
       this.showMsg = false;
     }, 3000);
   }
-  constructor(private fb: FormBuilder, private userService: UsersService) {}
+  constructor(private fb: FormBuilder, private userService: UsersService, private orderService: OrderService) {}
 
   ngOnInit() {
     this.user = this.userService.getCurrentUser();
-
+    this.orderService.getOrdersByUser(this.user._id).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.orders = res;
+      },
+      error: (err: any) => {
+        console.error('Failed to fetch orders:', err);
+      }
+    });
     this.form = this.fb.group({
       email: [this.user.email, [Validators.required, Validators.email]],
       name: [this.user.name, Validators.required],
@@ -84,5 +94,18 @@ export class UserDetailsComponent implements OnInit {
       console.log('Form is invalid');
       this.failure();
     }
+  }
+  
+  cancel(order:any)
+  {
+    this.orderService.cancelOrder(order._id).subscribe({
+      next: (res:any) => {
+        this.orderService.getOrdersByUser(this.user._id).subscribe({
+          next: (orders:any) => {
+            this.orders = orders;
+          }
+        });
+      }
+    })
   }
 }

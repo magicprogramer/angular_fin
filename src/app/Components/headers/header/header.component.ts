@@ -7,9 +7,10 @@ import { AuthService } from '../../../Services/auth.service';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd } from '@angular/router';
 import { ImageUrlPipe } from '../../../pipes/image-url.pipe';
+import { GetUserNamePipe } from '../../../pipes/get-user-name.pipe';
 @Component({
   selector: 'app-header',
-  imports: [ProductSearchComponent, RouterLink, CommonModule, ImageUrlPipe],
+  imports: [ProductSearchComponent, RouterLink, CommonModule, ImageUrlPipe, GetUserNamePipe],
   templateUrl: './header.component.html',
   styles: ``
 })
