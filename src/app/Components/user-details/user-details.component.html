@@ -1,1 +1,26 @@
-<p>user-details works!</p>
+<div class="card bg-base-100 w-96 shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title">Edit Profile</h2>
+  
+      <form [formGroup]="form" (ngSubmit)="submitForm()">
+        <label>Name</label>
+        <input class="input input-bordered w-full mb-2" type="text" formControlName="name" />
+  
+        <label>Email</label>
+        <input class="input input-bordered w-full mb-2" type="email" formControlName="email" />
+  
+        <label>Gender</label>
+        <input class="input input-bordered w-full mb-2" type="text" formControlName="gender" />
+  
+        <label>Profile Image</label>
+        <input class="file-input w-full mb-2" type="file" (change)="onFileChange($event)" />
+  
+        <button class="btn btn-primary w-full mt-2" type="submit">Save</button>
+      </form>
+    </div>
+  
+    <figure>
+      <img [src]="user.image | imageUrl" alt="Profile Image" />
+    </figure>
+  </div>
+  

@@ -70,6 +70,7 @@ const Order = mongoose.model("Order", orderSchema);
 
 // Middleware
 function auth(req, res, next) {
+  console.log("hello");
   const token = req.headers.authorization?.split(" ")[1];
  if (!token) return res.status(401).json("no token");
 
@@ -89,6 +90,27 @@ app.get("/users", auth, isAdmin, async (req, res) =>{
   const users = await User.find();
   res.send(users);
 })
+app.put("/users", auth, async (req, res) => {
+  console.log(req.user.id, req.body);
+  const user = await User.findById(req.user.id);
+  if (!user) return res.status(404).json("user not found");
+  const existMail = await User.find({ email: req.body.email });
+  const existUser = await User.find({name : req.body.email});
+  console.log(existMail[0]._id, req.body.email, req.user.id);
+  if ((existMail && existMail[0]._id.toString() != req.user.id))
+  {
+    console.log(existMail);
+    console.log(existUser);
+    return res.status(403).json({});
+  }
+  if (req.user.id !== user._id.toString()) return res.status(403).json("not allowed to update this user");
+  if (req.files?.image) {
+    req.body.image = upload(req.files.image);
+  }
+  
+  const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, { new: true });
+  res.status(200).json(updatedUser);
+});
 app.delete("/users/:id",auth, isAdmin, async (req, res) =>{
   console.log(req.params.id);
   console.log(req.user);

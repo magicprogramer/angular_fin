@@ -12,6 +12,10 @@ export class UsersService {
   getProfile(id:number){
     
   }
+  setProfile(user:any)
+  {
+    this.cookieService.set("user", JSON.stringify(user));
+  }
   getAll()
   {
     return this.http.get(this.URL + "users", {
@@ -29,5 +33,19 @@ export class UsersService {
         'Authorization': `Bearer ${this.cookieService.get('token')}`
       }
     });
+  }
+  getCurrentUser()
+  {
+    let u= this.cookieService.get('user') ? this.cookieService.get("user") : '';
+    return JSON.parse(u);
+  }
+  updateUser(user:any)
+  {
+    console.log(user);
+    return this.http.put(`${this.URL}users`, user, {
+      headers: {
+        'Authorization': `Bearer ${this.cookieService.get('token')}`
+      }
+    })
   }
 }

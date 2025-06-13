@@ -1,7 +1,7 @@
 @for (item of products; track item._id) {
   <div class="card bg-base-100 w-96 shadow-sm m-4">
     <figure>
-      <img [src]="'http://localhost:3000' + item.image" alt="Product Image" />
+      <img [src]="item.image | imageUrl" alt="Product Image" />
     </figure>
     <div class="card-body">
       <h2 class="card-title">{{ item._id }}</h2>
@@ -14,4 +14,3 @@
   </div>
 }
 
-<button (click) = "doSomething()">click</button>

@@ -4,9 +4,10 @@ import { CommonModule } from '@angular/common';
 import { CartService } from '../../Services/cart-service.service';
 import { NgModule } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ImageUrlPipe } from '../../pipes/image-url.pipe';
 @Component({
   selector: 'app-products',
-  imports: [CommonModule],
+  imports: [CommonModule, ImageUrlPipe],
   providers: [ProductsService],
   templateUrl: './products.component.html'
 })
