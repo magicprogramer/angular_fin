@@ -1,26 +1,56 @@
-<div class="card bg-base-100 w-96 shadow-sm">
-    <div class="card-body">
-      <h2 class="card-title">Edit Profile</h2>
+<div class="tabs tabs-border">
+    <input type="radio" name="profile_tabs" class="tab" aria-label="Edit Profile" checked />
+    <div class="tab-content border-base-300 bg-base-100 p-10">
   
-      <form [formGroup]="form" (ngSubmit)="submitForm()">
-        <label>Name</label>
-        <input class="input input-bordered w-full mb-2" type="text" formControlName="name" />
+      <div
+        *ngIf="showMsg"
+        class="fixed top-5 right-5 text-white px-4 py-2 rounded shadow-lg z-50 transition-opacity duration-500"
+        [ngClass]="{
+          'bg-green-500': type === 'success',
+          'bg-red-500': type === 'error'
+        }"
+      >
+        {{ msg }}
+      </div>
   
-        <label>Email</label>
-        <input class="input input-bordered w-full mb-2" type="email" formControlName="email" />
+      <div class="card bg-base-100 shadow-sm max-w-2xl mx-auto">
+        <div class="card-body">
+          <h2 class="card-title">Edit Profile</h2>
   
-        <label>Gender</label>
-        <input class="input input-bordered w-full mb-2" type="text" formControlName="gender" />
+          <form [formGroup]="form" (ngSubmit)="submitForm()">
+            <label class="label">
+              <span class="label-text">Name</span>
+            </label>
+            <input class="input input-bordered w-full mb-2" type="text" formControlName="name" />
   
-        <label>Profile Image</label>
-        <input class="file-input w-full mb-2" type="file" (change)="onFileChange($event)" />
+            <label class="label">
+              <span class="label-text">Email</span>
+            </label>
+            <input class="input input-bordered w-full mb-2" type="email" formControlName="email" />
   
-        <button class="btn btn-primary w-full mt-2" type="submit">Save</button>
-      </form>
+            <label class="label">
+              <span class="label-text">Gender</span>
+            </label>
+            <input class="input input-bordered w-full mb-2" type="text" formControlName="gender" />
+  
+            <label class="label">
+              <span class="label-text">Profile Image</span>
+            </label>
+            <input class="file-input file-input-bordered w-full mb-4" type="file" (change)="onFileChange($event)" />
+  
+            <button class="btn btn-primary w-full mt-2" type="submit">Save</button>
+          </form>
+        </div>
+  
+        <figure class="p-4 border-t">
+          <img [src]="user.image | imageUrl" alt="Profile Image" class="max-h-48 mx-auto rounded-lg" />
+        </figure>
+      </div>
     </div>
-  
-    <figure>
-      <img [src]="user.image | imageUrl" alt="Profile Image" />
-    </figure>
+
+    <input type="radio" name="profile_tabs" class="tab" aria-label="Something Else" />
+    <div class="tab-content border-base-300 bg-base-100 p-10">
+      <p class="text-error text-xl font-bold text-center">ok</p>
+    </div>
   </div>
   

@@ -95,9 +95,9 @@ app.put("/users", auth, async (req, res) => {
   const user = await User.findById(req.user.id);
   if (!user) return res.status(404).json("user not found");
   const existMail = await User.find({ email: req.body.email });
-  const existUser = await User.find({name : req.body.email});
-  console.log(existMail[0]._id, req.body.email, req.user.id);
-  if ((existMail && existMail[0]._id.toString() != req.user.id))
+  const existUser = await User.find({name : req.body.name});
+ // console.log(existMail[0]._id, req.body.email, req.user.id);
+  if ((existMail.length > 0 && existMail[0]._id.toString() != req.user.id) || (existUser.length > 0 && existUser[0]._id.toString() != req.user.id))
   {
     console.log(existMail);
     console.log(existUser);
@@ -163,7 +163,6 @@ app.post("/register", async (req, res) => {
     res.status(201).json(user);
 
   } catch (error) {
-    console.error("Register error:", error?.response?.data || error.message);
     res.status(500).json(error?.response?.data || "Registration failed");
   }
 });

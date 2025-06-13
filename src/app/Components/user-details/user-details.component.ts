@@ -3,11 +3,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { UsersService } from '../../Services/users.service';
 import { ImageUrlPipe } from '../../pipes/image-url.pipe';
 import { CommonModule } from '@angular/common';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-user-details',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ImageUrlPipe],
+  imports: [ReactiveFormsModule, CommonModule, ImageUrlPipe, ToastModule],
   templateUrl: './user-details.component.html',
   styleUrls: []
 })
@@ -15,7 +16,25 @@ export class UserDetailsComponent implements OnInit {
   form!: FormGroup;
   selectedImage: File | null = null;
   user: any;
-
+  msg:any = "";
+  showMsg = false;
+  type: string = "success";
+  failure(){
+    this.type = "error";
+    this.msg = "there is something wrong!";
+    this.showMsg = true;
+    setTimeout(() => {
+      this.showMsg = false;
+    }, 3000);
+  }
+  success(){
+    this.type = "success";
+    this.msg = "done !";
+    this.showMsg = true;
+    setTimeout(() => {
+      this.showMsg = false;
+    }, 3000);
+  }
   constructor(private fb: FormBuilder, private userService: UsersService) {}
 
   ngOnInit() {
@@ -53,14 +72,17 @@ export class UserDetailsComponent implements OnInit {
           console.log('Update successful:', response);
           this.userService.setProfile(response);
           this.user = this.userService.getCurrentUser();
+          this.success();
 
         },
-        error: (error) => {
-          console.error('Update failed:', error);
+        error: (err) => {
+          console.error('Update failed:', err.message);
+          this.failure();
         }
       });
     } else {
       console.log('Form is invalid');
+      this.failure();
     }
   }
 }

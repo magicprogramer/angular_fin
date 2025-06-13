@@ -37,6 +37,7 @@ export class UsersService {
   getCurrentUser()
   {
     let u= this.cookieService.get('user') ? this.cookieService.get("user") : '';
+    if (!u)return JSON.parse('{}');
     return JSON.parse(u);
   }
   updateUser(user:any)

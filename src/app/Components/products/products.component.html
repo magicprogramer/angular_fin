@@ -1,16 +1,25 @@
-@for (item of products; track item._id) {
-  <div class="card bg-base-100 w-96 shadow-sm m-4">
-    <figure>
-      <img [src]="item.image | imageUrl" alt="Product Image" />
-    </figure>
-    <div class="card-body">
-      <h2 class="card-title">{{ item._id }}</h2>
-      <p>{{ item.details }}</p>
-      <div class="card-actions justify-end">
-        <button class="btn btn-primary" (click)="addToCart(item)">add to cart</button>
-        <button class="btn btn-info">{{item.price}} $</button>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+  @for (item of products; track item._id) {
+    <div class="card bg-base-100 shadow-md hover:shadow-lg transition-all">
+      <figure>
+        <img
+          [src]="item.image | imageUrl"
+          alt="Product Image"
+          class="h-48 w-full object-cover"
+        />
+      </figure>
+      <div class="card-body">
+        <h2 class="card-title text-lg font-semibold">
+          {{ item.title || 'Unnamed Product' }}
+        </h2>
+        <p class="text-sm text-gray-500">{{ item.details }}</p>
+        <div class="card-actions justify-between mt-4">
+          <button class="btn btn-sm btn-primary" (click)="addToCart(item)">
+            Add to Cart
+          </button>
+          <span class="text-primary font-bold">{{ item.price }} $</span>
+        </div>
       </div>
     </div>
-  </div>
-}
-
+  }
+</div>
