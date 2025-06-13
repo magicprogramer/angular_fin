@@ -31,7 +31,7 @@ logout(evnet:any)
 {
   this.authService.Logout();
   this.user = "";
-  this.router.navigate([""]);
+  this.router.navigate(["/login"]);
 
 }
 }

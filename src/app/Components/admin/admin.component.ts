@@ -22,7 +22,7 @@ export class AdminComponent {
   ngOnInit()
   {
     if (this.userSerivce.getCurrentUser().role != 'admin') {
-      this.router.navigate(['']);
+      this.router.navigate(['/']);
     }
     this.productService.getProducts().subscribe({
       next:(res)=>{

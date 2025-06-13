@@ -31,7 +31,7 @@
           {{ item.title || 'Unnamed Product' }}
         </h2>
         <p class="text-sm text-gray-500">{{ item.details }}</p>
-        <div class="card-actions justify-between mt-4">
+        <div class="card-actions justify-between mt-4" *ngIf="user?._id">
           <button class="btn btn-sm btn-primary" (click)="addToCart(item)">
             Add to Cart
           </button>

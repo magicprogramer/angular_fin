@@ -82,7 +82,7 @@ function auth(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-  if (req.user.role && req.user.role !== "admin") return res.status(403).json("not allowed");
+  if (req.user.role && req.user?.role !== "admin") return res.status(403).json("not allowed");
   next();
 }
 app.get("/users", auth, isAdmin, async (req, res) =>{
@@ -227,7 +227,7 @@ app.put("/products/:id", auth, isAdmin, async (req, res) => {
 
 app.delete("/products/:id", auth, isAdmin, async (req, res) => {
   await Product.deleteOne({ _id: req.params.id });
-  res.send("deleted");
+  res.status(200).json("deleted");
 });
 
 app.post("/orders", auth, async (req, res) => {

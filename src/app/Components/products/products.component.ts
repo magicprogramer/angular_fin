@@ -5,6 +5,7 @@ import { CartService } from '../../Services/cart-service.service';
 import { NgModule } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ImageUrlPipe } from '../../pipes/image-url.pipe';
+import { UsersService } from '../../Services/users.service';
 @Component({
   selector: 'app-products',
   imports: [CommonModule, ImageUrlPipe, RouterLink],
@@ -17,7 +18,8 @@ export class ProductsComponent {
   type = "";
   msg = "";
   showMsg = false;
-  constructor(readonly productService: ProductsService, readonly cartService: CartService, readonly route: ActivatedRoute){
+  user:any=null;
+  constructor(readonly productService: ProductsService, readonly cartService: CartService, readonly route: ActivatedRoute, private userService:UsersService){
 
   }
   failure(msg:any=null){
@@ -37,6 +39,7 @@ export class ProductsComponent {
     }, 3000);
   }
   ngOnInit() {
+    this.user = this.userService.getCurrentUser();
     this.route.queryParams.subscribe(params => {
       this.word = params['search'] || '';
   
@@ -59,6 +62,7 @@ export class ProductsComponent {
   
   addToCart(item:any=null){
     this.cartService.addToCart(item);
+    if (!this.userService.getCurrentUser()?._id)this.failure("please login first !");
     this.success("added to cart !");
   }
   doSomething()
