@@ -8,7 +8,7 @@
   <div *ngIf="active === 'products'" class="p-4 bg-base-200 rounded-box">
     <div class="flex flex-wrap gap-4 justify-center">
       @for (item of products; track item._id) {
-        <div class="card bg-base-100 w-80 shadow-sm">
+        <div class="card bg-base-100 w-80 shadow-md transform transition duration-300 hover:scale-[1.02] hover:shadow-lg">
           <figure class="h-48 overflow-hidden">
             <img class="object-cover w-full h-full" [src]="'http://localhost:3000' + item.image" alt="Product Image" />
           </figure>
@@ -34,13 +34,16 @@
       @for (user of users; track user._id) {
         <li class="list-row flex items-center justify-between gap-4 p-4">
           <div class="flex items-center gap-4">
-            <img class="size-10 rounded-box" [src]="user.avatar || 'https://img.daisyui.com/images/profile/demo/1@94.webp'" alt="{{user.name}}" />
+            <img class="size-10 rounded-box" [src]="(user.image | imageUrl) || 'https://img.daisyui.com/images/profile/demo/1@94.webp'" alt="{{user.name}}" />
             <div>
               <div class="text-lg font-semibold">{{ user.name }}</div>
               <div class="text-sm opacity-70 break-all">{{ user.email }}</div>
+              <div *ngIf="user.role == 'admin'" class="text-xs opacity-50">
+                Role: {{ user.role }}
             </div>
+              </div>
           </div>
-          <button class="btn btn-square btn-ghost" (click)="deleteUser(user)">
+          <button class="btn btn-square btn-ghost" (click)="deleteUser(user)" *ngIf="user.role != 'admin'">
             <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round"
                 d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 

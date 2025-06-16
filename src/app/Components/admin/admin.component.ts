@@ -5,9 +5,10 @@ import { UsersService } from '../../Services/users.service';
 import { OrderService } from '../../Services/order.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import { ImageUrlPipe } from '../../pipes/image-url.pipe';
 @Component({
   selector: 'app-admin',
-  imports: [CommonModule],
+  imports: [CommonModule, ImageUrlPipe],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })

@@ -1,37 +1,47 @@
-<div class="navbar bg-base-100 shadow-sm">
+<div class="navbar bg-base-100 shadow-sm px-4">
   <div class="flex-1">
-    <a routerLink="/" class="btn btn-ghost text-xl">SparseCommerce</a>
+    <a routerLink="/" class="btn btn-ghost text-xl font-bold tracking-tight">SparseCommerce</a>
   </div>
-  <div class="flex-1">
-    <a routerLink="/about" class="btn btn-ghost text-xl">about</a>
-  </div>
-  
-  <div class="flex-none pr-4">
-    <ul class="menu menu-horizontal px-1">
-      <li>
-        <div class="avatar" *ngIf="user?._id">
-          <div class="ring-primary ring-offset-base-100 w-12 rounded-full ring-2 ring-offset-2">
-            <img [src]="user.image | imageUrl"/>
-          </div>
-          </div>
 
-      </li>
-      <li class="relative">
-        <details>
-          <summary>
-              {{user | getUserName}}
-          </summary>
-          <ul class="bg-base-100 rounded-t-none p-2 absolute right-0 z-50 shadow-lg min-w-[8rem]">
-            <li><a routerLink="/profile"  *ngIf="user?._id">Profile</a></li>
-            <li><a role="button" (click)="logout($event)"  *ngIf="user?._id">Logout</a></li>
-            <li><a routerLink="/login"  *ngIf="!user?._id">Login</a></li>
-            <li><a routerLink="/register"  *ngIf="!user?._id">Register</a></li>
-          </ul>
-        </details>
-      </li>
-    </ul>
+  <div class="absolute left-1/2 transform -translate-x-1/2">
+    <a routerLink="/about" class="btn btn-ghost text-md font-medium">About</a>
+  </div>
+
+  <div class="flex-none flex items-center gap-4">
+    <svg (click) = "router.navigate(['/admin'])"
+      *ngIf="user?.role === 'admin'"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="size-6 text-warning"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+      />
+    </svg>
+
+    <div class="avatar" *ngIf="user?._id">
+      <div class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+        <img [src]="user.image | imageUrl" />
+      </div>
+    </div>
+
+    <div class="dropdown dropdown-end">
+      <label tabindex="0" class="btn btn-ghost px-2 capitalize">
+        {{ (user | getUserName) || 'Account' }}
+      </label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-44 z-50">
+        <li *ngIf="user?._id"><a routerLink="/profile">Profile</a></li>
+        <li *ngIf="user?._id"><a role="button" (click)="logout($event)">Logout</a></li>
+        <li *ngIf="!user?._id"><a routerLink="/login">Login</a></li>
+        <li *ngIf="!user?._id"><a routerLink="/register">Register</a></li>
+      </ul>
+    </div>
   </div>
 </div>
 
 <app-product-search *ngIf="router.url.split('?')[0] === '/'"></app-product-search>
-  

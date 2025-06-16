@@ -45,9 +45,7 @@ export class CartService {
         username: username,
         items: this.getCart()
       };
-      // Here you would typically send the order to your backend server
       console.log('Order placed:', order);
-      // Clear the cart after checkout
       this.cookieService.delete('cart');
     } else {
       console.log('Cart is empty, cannot checkout.');

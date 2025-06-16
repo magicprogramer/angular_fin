@@ -256,7 +256,6 @@ app.get("/orders", async (req, res) => {
 });
 
 app.put("/orders/:id", auth, isAdmin, async (req, res) => {
-  console.log("nerf this")
   await Order.updateOne({ _id: req.params.id }, { status: req.body.status });
   return res.send("order updated");
 });

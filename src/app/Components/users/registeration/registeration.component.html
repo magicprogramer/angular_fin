@@ -2,28 +2,51 @@
   [formGroup]="registerForm"
   (ngSubmit)="submitForm()"
   enctype="multipart/form-data"
-  class="max-w-md mx-auto card bg-base-100 shadow-lg p-6 space-y-4 border border-base-300"
+  class="max-w-md mx-auto bg-base-100 border border-base-300 shadow-md rounded-xl px-8 py-6 space-y-5"
 >
-  <h2 class="text-xl font-bold mb-2 text-center">User Registration</h2>
+  <h2 class="text-2xl font-semibold text-center text-neutral-content mb-2">User Registration</h2>
 
   <div class="form-control">
-    <label class="label"><span class="label-text font-semibold">Email</span></label>
-    <input type="email" formControlName="email" class="input input-bordered" placeholder="Enter your email" />
+    <label class="label">
+      <span class="label-text font-medium">Email</span>
+    </label>
+    <input
+      type="email"
+      formControlName="email"
+      class="input input-bordered w-full"
+      placeholder="Enter your email"
+    />
   </div>
 
   <div class="form-control">
-    <label class="label"><span class="label-text font-semibold">Username</span></label>
-    <input type="text" formControlName="username" class="input input-bordered" placeholder="Choose a username" />
+    <label class="label">
+      <span class="label-text font-medium">Username</span>
+    </label>
+    <input
+      type="text"
+      formControlName="username"
+      class="input input-bordered w-full"
+      placeholder="Choose a username"
+    />
   </div>
 
   <div class="form-control">
-    <label class="label"><span class="label-text font-semibold">Password</span></label>
-    <input type="password" formControlName="password" class="input input-bordered" placeholder="Enter a password" />
+    <label class="label">
+      <span class="label-text font-medium">Password</span>
+    </label>
+    <input
+      type="password"
+      formControlName="password"
+      class="input input-bordered w-full"
+      placeholder="Enter a password"
+    />
   </div>
 
   <div class="form-control">
-    <label class="label"><span class="label-text font-semibold">Gender</span></label>
-    <select formControlName="gender" class="select select-bordered">
+    <label class="label">
+      <span class="label-text font-medium">Gender</span>
+    </label>
+    <select formControlName="gender" class="select select-bordered w-full">
       <option value="" disabled selected>Select gender</option>
       <option value="male">Male</option>
       <option value="female">Female</option>
@@ -31,11 +54,18 @@
   </div>
 
   <div class="form-control">
-    <label class="label"><span class="label-text font-semibold">Image</span></label>
-    <input type="file" (change)="onFileChange($event)" class="file-input file-input-bordered" accept="image/*" />
+    <label class="label">
+      <span class="label-text font-medium">Profile Image</span>
+    </label>
+    <input
+      type="file"
+      (change)="onFileChange($event)"
+      class="file-input file-input-bordered w-full"
+      accept="image/*"
+    />
   </div>
 
-  <div class="form-control mt-4">
-    <button type="submit" class="btn btn-primary">Register</button>
+  <div class="form-control pt-2">
+    <button type="submit" class="btn btn-primary w-full">Register</button>
   </div>
 </form>

@@ -1,41 +1,41 @@
 <div
-        *ngIf="showMsg"
-        class="fixed top-5 right-5 text-white px-4 py-2 rounded shadow-lg z-50 transition-opacity duration-500"
-        [ngClass]="{
-          'bg-green-500': type === 'success',
-          'bg-red-500': type === 'error'
-        }"
-      >
-        {{ msg }}
-      </div>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
-  <a 
-  routerLink="/cart"
-  class="fixed bottom-5 right-5 bg-[#bb3e03] text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition inline-flex items-center justify-center"
+  *ngIf="showMsg"
+  class="fixed top-5 right-5 text-white px-4 py-2 rounded-md shadow-md z-50 transition-opacity duration-300 hover:opacity-90"
+  [ngClass]="{
+    'bg-green-600': type === 'success',
+    'bg-red-600': type === 'error'
+  }"
 >
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  {{ msg }}
+</div>
+
+<a 
+  routerLink="/cart"
+  class="fixed bottom-5 right-5 bg-primary text-white px-5 py-3 rounded-full shadow-md hover:bg-primary-focus transition-colors duration-300 flex items-center justify-center"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
   </svg>
 </a>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
   @for (item of products; track item._id) {
-    <div class="card bg-base-100 shadow-md hover:shadow-lg transition-all">
+    <div class="card bg-base-100 shadow-sm border border-gray-200 hover:shadow-md transition-transform duration-300 hover:-translate-y-1">
       <figure>
         <img
           [src]="item.image | imageUrl"
           alt="Product Image"
-          class="h-48 w-full object-cover"
+          class="h-48 w-full object-cover rounded-t-md"
         />
       </figure>
-      <div class="card-body">
-        <h2 class="card-title text-lg font-semibold">
+      <div class="card-body space-y-2">
+        <h2 class="text-lg font-semibold text-neutral-content">
           {{ item.title || 'Unnamed Product' }}
         </h2>
-        <p class="text-sm text-gray-500">{{ item.details }}</p>
-        <div class="card-actions justify-between mt-4" *ngIf="user?._id">
-          <button class="btn btn-sm btn-primary" (click)="addToCart(item)">
-            Add to Cart
-          </button>
-          <span class="text-primary font-bold">{{ item.price }} $</span>
+        <p class="text-sm text-gray-500 leading-relaxed">{{ item.details }}</p>
+        <div class="flex items-center justify-between pt-2" *ngIf="user?._id">
+          <button class="btn btn-sm btn-primary px-4" (click)="addToCart(item)">Add to Cart</button>
+          <span class="text-base font-medium text-primary">{{ item.price }} $</span>
         </div>
       </div>
     </div>

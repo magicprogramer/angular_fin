@@ -36,6 +36,8 @@ export class CartComponent {
     }).subscribe({
       next:(response:any) => {
         console.log("Order placed successfully", response);
+        this.cookieService.delete("cart");
+        this.cart = [];
         this.router.navigate([""]);
       }
   })
